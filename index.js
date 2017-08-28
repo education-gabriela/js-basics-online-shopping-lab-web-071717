@@ -11,14 +11,14 @@ function setCart(c) {
 
 function addToCart(item) {
     let price = Math.floor(Math.random() * 100);
-    cart.push({[item]: price});
+    getCart().push({[item]: price});
     console.log(`${item} has been added to your cart.`);
     return cart;
 }
 
 function printTwoItems() {
     let items = []
-    for (let i = 0; i < cart.length; i++) {
+    for (let i = 0; i < getCart().length; i++) {
         let itemName = Object.keys(cart[i])[0];
         let item = `${itemName} at $${cart[i][itemName]}`;
         items.push(item);
@@ -29,11 +29,11 @@ function printTwoItems() {
 function printMultipleItems() {
     let items = ""
 
-    for (let j = 0; j < cart.length; j++) {
+    for (let j = 0; j < getCart().length; j++) {
         let itemName = Object.keys(cart[j])[0];
         let item;
 
-        if (j != cart.length - 1) {
+        if (j != getCart().length - 1) {
             item = `${itemName} at $${cart[j][itemName]}, `;
         } else {
             item = `and ${itemName} at $${cart[j][itemName]}`;
@@ -46,7 +46,7 @@ function printMultipleItems() {
 function viewCart() {
     let cartDescription = ""
 
-    switch (cart.length) {
+    switch (getCart().length) {
         case 0:
             cartDescription = "Your shopping cart is empty";
             break;
@@ -67,7 +67,7 @@ function viewCart() {
 
 function total() {
     let totalSum = 0;
-    for (let i = 0; i < cart.length; i++) {
+    for (let i = 0; i < getCart().length; i++) {
         let itemName = Object.keys(cart[i])[0];
         totalSum += cart[i][itemName];
     }
@@ -76,9 +76,9 @@ function total() {
 
 function removeFromCart(item) {
     let removed = false;
-    for(let i = 0; i < cart.length; i++) {
+    for(let i = 0; i < getCart().length; i++) {
         if (cart[i].hasOwnProperty(item)) {
-            removed = cart.splice(i, 1);
+            removed = getCart().splice(i, 1);
         }
     }
 
@@ -87,5 +87,11 @@ function removeFromCart(item) {
 }
 
 function placeOrder(cardNumber) {
-    // write your code here
+    if (cardNumber === undefined || cardNumber.length === 0) {
+      console.log("Sorry, we don't have a credit card on file for you.");
+      return;
+    }
+
+    console.log(`Your total cost is $${total()}, which will be charged to the card ${cardNumber}.`)
+    setCart([])
 }
